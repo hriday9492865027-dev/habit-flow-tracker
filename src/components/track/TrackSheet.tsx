@@ -175,7 +175,7 @@ export function TrackSheet({
                       const entry = entriesMap.get(`${question.id}_${slot}`);
                       const isAnswered = !!entry;
 
-                      let cellClasses =
+                      const cellClasses =
                         'track-cell min-w-[64px] h-12 p-1 text-center border-r border-slate-800/60 relative cursor-pointer select-none transition-all focus:outline-none';
                       let pillClasses =
                         'w-full h-full flex flex-col items-center justify-center rounded-lg text-xs font-bold transition-all';

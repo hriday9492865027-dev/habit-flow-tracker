@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --import tsx"
+    "test": "node --test --import tsx --test-concurrency=1 --test-force-exit src/lib/auth/password.test.ts src/lib/calculations/analytics.test.ts src/lib/calculations/correlations.test.ts src/lib/calculations/goals.test.ts src/lib/calculations/index.test.ts src/lib/data-access/data-access.test.ts src/lib/data-access/notifications.test.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.10",
+    "@types/web-push": "^3.6.4",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.4",
     "lucide-react": "^1.59.0",
@@ -19,7 +20,9 @@
     "pg": "^8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "tailwind-merge": "^3.7.0"
+    "recharts": "^3.10.1",
+    "tailwind-merge": "^3.7.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

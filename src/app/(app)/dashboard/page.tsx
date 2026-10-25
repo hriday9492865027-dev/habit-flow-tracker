@@ -48,7 +48,7 @@ export default async function DashboardPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              Today's Overview
+              Today&apos;s Overview
             </span>
             <span className="text-xs text-slate-400 font-medium">{formatDisplayDate(today)}</span>
           </div>

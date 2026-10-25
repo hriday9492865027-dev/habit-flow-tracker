@@ -73,6 +73,30 @@ export const userSettings = pgTable('user_settings', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const notificationPreferences = pgTable('notification_preferences', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().unique().references(() => users.id, { onDelete: 'cascade' }),
+  enabled: boolean('enabled').notNull().default(false),
+  mode: text('mode').notNull().default('interval'), // 'interval' | 'specific_times'
+  intervalMinutes: integer('interval_minutes').notNull().default(60),
+  specificTimes: text('specific_times').notNull().default('["09:00","13:00","17:00","21:00"]'),
+  quietHoursStart: text('quiet_hours_start').notNull().default('22:00'),
+  quietHoursEnd: text('quiet_hours_end').notNull().default('06:00'),
+  daysOfWeek: text('days_of_week').notNull().default('[1,2,3,4,5,6,0]'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const pushSubscriptions = pgTable('push_subscriptions', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  endpoint: text('endpoint').notNull().unique(),
+  p256dh: text('p256dh').notNull(),
+  auth: text('auth').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+
 export const usersRelations = relations(users, ({ many, one }) => ({
   sessions: many(sessions),
   questions: many(questions),

@@ -1,4 +1,4 @@
-import { test, describe, after } from 'node:test';
+import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { createQuestion, getQuestionsForUser, getQuestionById, updateQuestion } from './questions';
 import { saveHourlyEntry, getEntriesForDate } from './entries';
@@ -115,10 +115,5 @@ describe('Data Access Layer & Product Rules', () => {
     // User B's entries for 2026-10-18 should be empty
     const entriesB = await getEntriesForDate(userB_id, '2026-10-18');
     assert.equal(entriesB.length, 0);
-  });
-
-  after(() => {
-    // Graceful exit after all test suites complete
-    setTimeout(() => process.exit(0), 100);
   });
 });

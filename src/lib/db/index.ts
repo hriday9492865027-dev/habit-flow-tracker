@@ -44,13 +44,22 @@ function initDatabase(): DrizzleDb {
     dbInstance = db;
   } else {
     // Local embedded PGlite instance for zero-friction setup
-    const dataDir = path.join(process.cwd(), 'data', 'habitflow_pg');
-    fs.mkdirSync(dataDir, { recursive: true });
+    const isTest = process.env.NODE_ENV === 'test' || 
+                   process.argv.includes('--test') || 
+                   process.execArgv.includes('--test') ||
+                   process.env.npm_lifecycle_event === 'test';
 
-    const pglite = new PGlite(dataDir);
+    let pglite: PGlite;
+    if (isTest) {
+      pglite = new PGlite();
+    } else {
+      const dataDir = path.join(process.cwd(), 'data', 'habitflow_pg');
+      fs.mkdirSync(dataDir, { recursive: true });
+      pglite = new PGlite(dataDir);
+    }
     const db = drizzlePglite(pglite, { schema });
 
-    if (!global.__habitflow_initialized__) {
+    if (!global.__habitflow_initialized__ || isTest) {
       pglite.exec(INIT_SCHEMA_SQL).catch((err) => {
         console.error('Failed to initialize database tables on PGlite:', err);
       });
