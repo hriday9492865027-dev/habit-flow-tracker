@@ -42,8 +42,15 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 text-white shadow-xl shadow-emerald-500/20 mb-4">
-          <Sparkles className="w-6 h-6" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl overflow-hidden shadow-2xl shadow-emerald-500/20 mb-4 bg-slate-900 border border-slate-800">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/icons/icon-192.png"
+            alt="HabitFlow Logo"
+            width={56}
+            height={56}
+            className="w-full h-full object-cover"
+          />
         </div>
         <h2 className="text-2xl font-extrabold text-white tracking-tight">
           Welcome back to Habit<span className="text-emerald-400">Flow</span>
