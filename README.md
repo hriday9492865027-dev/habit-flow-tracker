@@ -105,3 +105,24 @@ src/
 │   └── db/                       # Drizzle ORM schema, PGlite, PostgreSQL pool
 └── types/                        # Global TypeScript domain models
 ```
+
+---
+
+## ⚡ Vercel Deployment & Continuous Delivery
+
+HabitFlow is pre-configured with [`vercel.json`](./vercel.json) for zero-config, continuous deployment:
+
+1. **Automatic Live Updates:**
+   - When the GitHub repository is linked to Vercel, every commit pushed to `main` automatically triggers a production build.
+   - All code updates become live immediately without manual redeployment.
+
+2. **PWA & Cache Management:**
+   - [`vercel.json`](./vercel.json) configures `Cache-Control: public, max-age=0, must-revalidate` for `sw.js` and `manifest.webmanifest`.
+   - Ensures that when new features are pushed, users receive the updated service worker and application shell immediately.
+
+3. **Production Database:**
+   - In your Vercel Project Settings &rarr; **Environment Variables**, add:
+     ```
+     DATABASE_URL=postgres://user:password@ep-something.neon.tech/habitflow?sslmode=require
+     ```
+   - HabitFlow will automatically detect PostgreSQL and execute the schema initialization without any extra migration steps.
