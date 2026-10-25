@@ -23,20 +23,30 @@ function initDatabase(): DrizzleDb {
     return global.__habitflow_db__;
   }
 
-  const databaseUrl = process.env.DATABASE_URL;
+  const databaseUrl =
+    process.env.DATABASE_URL ||
+    process.env.POSTGRES_URL ||
+    process.env.POSTGRES_PRISMA_URL ||
+    process.env.NEON_DATABASE_URL;
 
   if (databaseUrl && (databaseUrl.startsWith('postgres://') || databaseUrl.startsWith('postgresql://'))) {
+    const isSsl =
+      databaseUrl.includes('sslmode=require') ||
+      databaseUrl.includes('neon.tech') ||
+      process.env.NODE_ENV === 'production';
+
     const pool = new Pool({
       connectionString: databaseUrl,
-      ssl: databaseUrl.includes('sslmode=require') || databaseUrl.includes('neon.tech') 
-        ? { rejectUnauthorized: false } 
-        : undefined,
+      ssl: isSsl ? { rejectUnauthorized: false } : undefined,
+      max: process.env.NODE_ENV === 'production' ? 10 : 5,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
     });
     const db = drizzleNodePg(pool, { schema });
 
     if (!global.__habitflow_initialized__) {
       pool.query(INIT_SCHEMA_SQL).catch((err) => {
-        console.error('Failed to initialize database tables on PostgreSQL:', err);
+        console.error('Failed to initialize database tables on PostgreSQL/Neon:', err);
       });
       global.__habitflow_initialized__ = true;
     }

@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --import tsx --test-concurrency=1 --test-force-exit src/lib/auth/password.test.ts src/lib/calculations/analytics.test.ts src/lib/calculations/correlations.test.ts src/lib/calculations/goals.test.ts src/lib/calculations/index.test.ts src/lib/data-access/data-access.test.ts src/lib/data-access/notifications.test.ts"
+    "test": "node --test --import tsx --test-concurrency=1 --test-force-exit src/lib/auth/password.test.ts src/lib/calculations/analytics.test.ts src/lib/calculations/correlations.test.ts src/lib/calculations/goals.test.ts src/lib/calculations/index.test.ts src/lib/data-access/data-access.test.ts src/lib/data-access/notifications.test.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.10",
