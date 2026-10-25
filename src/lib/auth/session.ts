@@ -1,13 +1,14 @@
 import { cookies } from 'next/headers';
 import { randomBytes } from 'crypto';
 import { eq } from 'drizzle-orm';
-import { db, schema } from '@/lib/db';
+import { db, schema, ensureDbInitialized } from '@/lib/db';
 import type { User } from '@/types';
 
 export const SESSION_COOKIE_NAME = 'habitflow_session';
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 export async function createSession(userId: string): Promise<string> {
+  await ensureDbInitialized();
   const sessionId = randomBytes(32).toString('hex');
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
 
@@ -48,6 +49,8 @@ export async function getCurrentUser(): Promise<User | null> {
     if (!sessionCookie?.value) {
       return null;
     }
+
+    await ensureDbInitialized();
 
     const sessionRows = await (db as any)
       .select()

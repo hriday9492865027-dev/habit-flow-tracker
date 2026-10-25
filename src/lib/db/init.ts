@@ -92,3 +92,7 @@ CREATE TABLE IF NOT EXISTS push_subscriptions (
 );
 `;
 
+export const SCHEMA_STATEMENTS = INIT_SCHEMA_SQL
+  .split(';')
+  .map((s) => s.trim())
+  .filter((s) => s.length > 0);

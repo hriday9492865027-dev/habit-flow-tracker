@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { randomBytes } from 'crypto';
-import { db, schema } from '@/lib/db';
+import { db, schema, ensureDbInitialized } from '@/lib/db';
 import { hashPassword } from '@/lib/auth/password';
 import { seedDefaultQuestions } from './questions';
 import { getUserSettings } from './settings';
@@ -15,6 +15,7 @@ export async function createUser(
   password: string,
   name?: string
 ): Promise<User> {
+  await ensureDbInitialized();
   const normalizedEmail = email.trim().toLowerCase();
 
   const existing = await (db as any)
@@ -56,6 +57,7 @@ export async function createUser(
 export async function getUserByEmail(
   email: string
 ): Promise<{ user: User; passwordHash: string } | null> {
+  await ensureDbInitialized();
   const normalizedEmail = email.trim().toLowerCase();
 
   const rows = await (db as any)
